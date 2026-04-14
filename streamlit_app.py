@@ -295,18 +295,16 @@ def page_analysis():
     if uploaded_file is not None:
         st.session_state.uploaded_image = uploaded_file
         
-        # Hiển thị khung quét 224x224
-        st.markdown("""
-        <div class="scanning-frame" style="display: flex; justify-content: center; align-items: center; height: 300px;">
-            <div style="width: 224px; height: 224px; position: relative;">
-        """, unsafe_allow_html=True)
-        
         image = Image.open(uploaded_file)
-        # Resize để fit khung  224x224
+        # Resize để fit 224x224 (chuẩn input model)
         image_resized = image.resize((224, 224), Image.Resampling.LANCZOS)
-        st.image(image_resized, use_column_width=False)
         
-        st.markdown("</div></div>", unsafe_allow_html=True)
+        # Hiển thị ảnh đã resize
+        col1, col2, col3 = st.columns([1, 2, 1])
+        with col2:
+            st.image(image_resized, use_column_width=True, caption='Ảnh sẽ được phân tích (224×224px)')
+        
+        st.divider()
         
         # Nút dự đoán
         col1, col2, col3 = st.columns([1, 2, 1])
